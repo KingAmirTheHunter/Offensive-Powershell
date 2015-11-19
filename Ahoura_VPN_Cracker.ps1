@@ -41,7 +41,7 @@ for ($x=0;$x -le $username.count; $x++)
                                         
                  if ($Connection -match 'error' -eq $true )
             
-                     {echo "$listuser [+] $listpass NO!!"}
+                     {echo "[-] $listuser : $listpass NO!!"}
              
                  else
             
