@@ -27,7 +27,7 @@ function Invoke-VpnBruteForce{
      Invoke-VpnBruteForce -ServerAddress 192.168.20.10 -UsernameFilePath C:\Usernames.txt -PasswordFilePath C:\Passwords.txt -TunType Pptp 
 
     .LINK
-
+     https://github.com/Prince-Amir/Offensive-Powershell.git
 #>
     [CmdletBinding()]param (
 #        [Parameter(Position = 0, Mandatory=$true,
